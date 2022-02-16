@@ -33,10 +33,6 @@ export class CreatePlaylistComponent implements OnInit {
       id: Math.floor(Math.random() * 100) + Date.now(),
       name: this.playlistForm.get('name').value};
     this.playlistsCollection.add(newPlayList);
-    /*const lastDoc = this.playlistDocuments[this.playlistDocuments.length-1];
-    const newPlayListWithFireStoreId = {...newPlayList, fireStoreId: lastDoc?.payload?.doc?.id};
-    this.playlistsCollection.doc(`/${lastDoc?.payload.doc.id}`)
-    .update(newPlayListWithFireStoreId);*/
 
     this.modalController.dismiss();
   }
