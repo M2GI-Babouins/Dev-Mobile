@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "babouin-mobile-f0f44": {
+      "hosting": {
+        "app": [
+          "babouin-mobile-f0f44"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "babouin-mobile-f0f44"
+  }
+}
