@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/compat/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Playlist } from 'src/app/models/playlist';
@@ -13,7 +13,8 @@ import { PlaylistService } from 'src/app/services/playlist.service';
 export class CreatePlaylistComponent implements OnInit {
 
   playlistForm: FormGroup
-  playlistsCollection : AngularFirestoreCollection<Playlist>
+  playlistsCollection : AngularFirestoreCollection<Playlist>;
+  playlistDocuments : DocumentChangeAction<Playlist>[];
 
   constructor(private fb: FormBuilder, private playlistService: PlaylistService,
     private modalController: ModalController,
@@ -22,11 +23,21 @@ export class CreatePlaylistComponent implements OnInit {
     this.playlistForm = this.fb.group({ name: ['', [Validators.required, Validators.minLength(3)]] });
   }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.playlistsCollection.snapshotChanges()
+    .subscribe(docs => this.playlistDocuments = docs);
+  }
 
   addPlaylist() {
-    const newPlayList: Playlist = {name: this.playlistForm.get('name').value};
+    const newPlayList: Playlist = {
+      id: Math.floor(Math.random() * 100) + Date.now(),
+      name: this.playlistForm.get('name').value};
     this.playlistsCollection.add(newPlayList);
+    /*const lastDoc = this.playlistDocuments[this.playlistDocuments.length-1];
+    const newPlayListWithFireStoreId = {...newPlayList, fireStoreId: lastDoc?.payload?.doc?.id};
+    this.playlistsCollection.doc(`/${lastDoc?.payload.doc.id}`)
+    .update(newPlayListWithFireStoreId);*/
+
     this.modalController.dismiss();
   }
 

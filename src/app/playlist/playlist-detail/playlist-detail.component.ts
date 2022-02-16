@@ -24,7 +24,7 @@ export class PlaylistDetailComponent implements OnInit {
   }
 
   delete(todo: Todo) {
-    this.playlistService.removeTodo(this.playlist.id, todo);
+    // this.playlistService.removeTodo(this.playlist.id, todo);
     this.playlist = this.playlistService.getOne(+this.route.snapshot.params.id);
   }
 
