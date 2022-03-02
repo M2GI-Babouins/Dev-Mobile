@@ -61,4 +61,20 @@ export class PlaylistDetailComponent implements OnInit {
     this.playlist = this.playlistService.getOne(+this.route.snapshot.params.id);
   }
 
+  checkTodo(todo: Todo){
+    todo.completed = true;
+    this.playlistService.checkTodo(this.playlist.id, todo, true);
+    const newPlaylist = this.playlistService.getOne(this.playlist.id);
+    const playlistToDeleteTodoFrom = this.playlistsCollection.doc(`/${this.playlistDoc.payload.doc.id}`);
+    playlistToDeleteTodoFrom.update(newPlaylist);
+  }
+
+  uncheckTodo(todo: Todo){
+    todo.completed = false;
+    this.playlistService.checkTodo(this.playlist.id, todo, false);
+    const newPlaylist = this.playlistService.getOne(this.playlist.id);
+    const playlistToDeleteTodoFrom = this.playlistsCollection.doc(`/${this.playlistDoc.payload.doc.id}`);
+    playlistToDeleteTodoFrom.update(newPlaylist);
+  }
+
 }

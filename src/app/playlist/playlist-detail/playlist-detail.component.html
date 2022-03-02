@@ -24,6 +24,12 @@
             <ion-item-option (click)="delete(todo)" color="danger">
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-item-option>
+            <ion-item-option *ngIf="todo.completed" (click)="uncheckTodo(todo)" color="success">
+              <ion-icon  slot="icon-only" name="checkbox-outline"></ion-icon>
+            </ion-item-option>
+            <ion-item-option *ngIf="!todo.completed" (click)="checkTodo(todo)" color="secondary">
+              <ion-icon  slot="icon-only" name="square-outline"></ion-icon>
+            </ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
   

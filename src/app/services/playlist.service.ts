@@ -46,4 +46,16 @@ export class PlaylistService {
       this.playlists[playlistIndex].todos = this.playlists[playlistIndex].todos.filter(t => t.id !== todo.id);
     }
   }
+
+  checkTodo(playlistId: number, todo: Todo, completed: boolean){
+    const playlistIndex = this.playlists.findIndex(p => p.id === playlistId);
+    if (this.playlists[playlistIndex]) {
+      this.playlists[playlistIndex].todos =  this.playlists[playlistIndex].todos.map(t =>{
+        if(t.id === todo.id){
+          t.completed = completed;
+        }
+        return t;
+      } );
+    }
+  }
 }
