@@ -6,14 +6,15 @@ import { Todo } from '../models/todo';
   providedIn: 'root'
 })
 export class PlaylistService {
-  playlists: Playlist[] = [
-    new Playlist('Item 1'),
-    new Playlist('Item 2'),
-    new Playlist('Item 3'),
-    new Playlist('Item 4'),
-  ];
+  playlists: Playlist[] = [];
 
-  constructor() { }
+  constructor() { 
+
+  }
+
+  loadPlaylists(p: Playlist[]){
+    this.playlists = p;
+  }
 
   getAll() {
     return this.playlists;

@@ -30,6 +30,8 @@ export class PlaylistPage implements OnInit {
 
     this.playlistsCollection.snapshotChanges()
     .subscribe(docs => this.playlistDocuments = docs);
+
+    this.playlists$.subscribe(p => this.playlistService.loadPlaylists(p));
   }
 
   delete(playlist: Playlist) {

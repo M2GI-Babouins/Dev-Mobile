@@ -31,7 +31,9 @@ export class CreatePlaylistComponent implements OnInit {
   addPlaylist() {
     const newPlayList: Playlist = {
       id: Math.floor(Math.random() * 100) + Date.now(),
-      name: this.playlistForm.get('name').value};
+      name: this.playlistForm.get('name').value,
+      todos: []
+    };
     this.playlistsCollection.add(newPlayList);
 
     this.modalController.dismiss();
