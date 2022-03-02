@@ -16,6 +16,8 @@ export class PlaylistDetailComponent implements OnInit {
 
   public playlist: Playlist;
   todos: Todo[]= [];
+  playlistsCollection : AngularFirestoreCollection<Playlist>;
+  private playlistDoc: DocumentChangeAction<Playlist>;
 
   constructor(private route: ActivatedRoute,
     private playlistService: PlaylistService,
@@ -29,18 +31,23 @@ export class PlaylistDetailComponent implements OnInit {
         this.todos = allTodo.filter(allT => allT.playlistId === this.playlist?.id);
       });*/
 
-    const allPlaylists = this.afs.collection<Playlist>('playlists');
-    allPlaylists.valueChanges().subscribe(allPlaylist => {
+    this.playlistsCollection = this.afs.collection<Playlist>('playlists');
+    this.playlistsCollection.valueChanges().subscribe(allPlaylist => {
      this.playlist = allPlaylist.filter(play => play.id === +this.route.snapshot.params.id)[0];
      this.todos = this.playlist?.todos;
     });
+
+    this.playlistsCollection.snapshotChanges()
+    .subscribe(docs => this.playlistDoc = docs.filter(doc => doc.payload.doc.data().id === this.playlist.id)[0]);
 
     
   }
 
   delete(todo: Todo) {
-    // this.playlistService.removeTodo(this.playlist.id, todo);
-    this.playlist = this.playlistService.getOne(+this.route.snapshot.params.id);
+    this.playlistService.removeTodo(this.playlist.id, todo);
+    const newPlaylist = this.playlistService.getOne(this.playlist.id);
+    const playlistToDeleteTodoFrom = this.playlistsCollection.doc(`/${this.playlistDoc.payload.doc.id}`);
+    playlistToDeleteTodoFrom.update(newPlaylist);
   }
 
   async openModal() {

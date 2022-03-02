@@ -36,7 +36,7 @@ export class PlaylistPage implements OnInit {
 
   delete(playlist: Playlist) {
     const docId = this.playlistDocuments
-    .filter(doc => doc.payload.doc.data().id === playlist.id).map(doc => doc.payload.doc.id)[0];
+      .filter(doc => doc.payload.doc.data().id === playlist.id).map(doc => doc.payload.doc.id)[0];
     const playlistToDelete = this.playlistsCollection.doc(`/${docId}`);
     playlistToDelete.delete();
     
