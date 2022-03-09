@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/compat/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { CreateTodoComponent } from 'src/app/modals/create-todo/create-todo.component';
 import { Playlist } from 'src/app/models/playlist';
 import { Todo } from 'src/app/models/todo';
@@ -18,63 +20,41 @@ export class PlaylistDetailComponent implements OnInit {
   todos: Todo[]= [];
   playlistsCollection : AngularFirestoreCollection<Playlist>;
   private playlistDoc: DocumentChangeAction<Playlist>;
+  todos$: Observable<Playlist>;
+
 
   constructor(private route: ActivatedRoute,
     private playlistService: PlaylistService,
-    private modalController: ModalController,
-    private afs: AngularFirestore) {  }
+    private modalController: ModalController) { 
+     }
 
   ngOnInit(): void {
-    /*this.playlist = this.playlistService.getOne(+this.route.snapshot.params.id);
-    const allTodos = this.afs.collection<Todo>('todos');
-      allTodos.valueChanges().subscribe(allTodo => {
-        this.todos = allTodo.filter(allT => allT.playlistId === this.playlist?.id);
-      });*/
-
-    this.playlistsCollection = this.afs.collection<Playlist>('playlists');
-    this.playlistsCollection.valueChanges().subscribe(allPlaylist => {
-     this.playlist = allPlaylist.filter(play => play.id === +this.route.snapshot.params.id)[0];
-     this.todos = this.playlist?.todos;
+    this.playlistService.getOnePlaylist(this.route.snapshot.params.id).subscribe((p:Playlist) =>{
+      this.playlist = p;
     });
 
-    this.playlistsCollection.snapshotChanges()
-    .subscribe(docs => this.playlistDoc = docs.filter(doc => doc.payload.doc.data().id === this.playlist.id)[0]);
-
-    
+    this.playlistService.getOnePlaylistTodos(this.route.snapshot.params.id).subscribe((t) =>{
+      this.todos = t;
+    })
   }
 
   delete(todo: Todo) {
-    this.playlistService.removeTodo(this.playlist.id, todo);
-    const newPlaylist = this.playlistService.getOne(this.playlist.id);
-    const playlistToDeleteTodoFrom = this.playlistsCollection.doc(`/${this.playlistDoc.payload.doc.id}`);
-    playlistToDeleteTodoFrom.update(newPlaylist);
+    this.playlistService.removeTodo(this.playlist.id ,todo);
   }
 
   async openModal() {
     const modal = await this.modalController.create({
       component: CreateTodoComponent,
       componentProps: {
-        playlistId: this.playlist.id
+        playlist: this.playlist
       }
     });
     await modal.present();
-    this.playlist = this.playlistService.getOne(+this.route.snapshot.params.id);
   }
 
-  checkTodo(todo: Todo){
-    todo.completed = true;
-    this.playlistService.checkTodo(this.playlist.id, todo, true);
-    const newPlaylist = this.playlistService.getOne(this.playlist.id);
-    const playlistToDeleteTodoFrom = this.playlistsCollection.doc(`/${this.playlistDoc.payload.doc.id}`);
-    playlistToDeleteTodoFrom.update(newPlaylist);
-  }
-
-  uncheckTodo(todo: Todo){
-    todo.completed = false;
-    this.playlistService.checkTodo(this.playlist.id, todo, false);
-    const newPlaylist = this.playlistService.getOne(this.playlist.id);
-    const playlistToDeleteTodoFrom = this.playlistsCollection.doc(`/${this.playlistDoc.payload.doc.id}`);
-    playlistToDeleteTodoFrom.update(newPlaylist);
+  checkTodo(todo: Todo, completed: boolean){
+    todo.completed = completed;
+    this.playlistService.checkTodo(this.playlist.id, todo);
   }
 
 }

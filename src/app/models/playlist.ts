@@ -1,13 +1,11 @@
 import { Todo } from "./todo";
 
 export class Playlist {
-    id: number;
     name: string;
     todos?: Todo[];
-    firestoreId?: string;
+    id?: string;
 
-    constructor(name: string, id?: number, todos?: Todo[]) {
-        this.id = id ?? Math.floor(Math.random() * 100) + Date.now();
+    constructor(name: string, todos?: Todo[]) {
         this.name = name;
         this.todos = todos ?? [];
     }

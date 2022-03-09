@@ -19,39 +19,15 @@ export class PlaylistPage implements OnInit {
   playlistDocuments : DocumentChangeAction<Playlist>[];
 
   constructor(private playlistService: PlaylistService,
-    private modalController: ModalController,
-    private afs: AngularFirestore) {
-    this.playlistsCollection = this.afs.collection<Playlist>('playlists');
-    this.playlists$ = this.playlistsCollection.valueChanges();
+    private modalController: ModalController) {
   }
 
   ngOnInit(): void {
-    // this.deleteEverything();
-
-    this.playlistsCollection.snapshotChanges()
-    .subscribe(docs => this.playlistDocuments = docs);
-
-    this.playlists$.subscribe(p => this.playlistService.loadPlaylists(p));
+   this.playlists$ = this.playlistService.getAll();
   }
 
   delete(playlist: Playlist) {
-    const docId = this.playlistDocuments
-      .filter(doc => doc.payload.doc.data().id === playlist.id).map(doc => doc.payload.doc.id)[0];
-    const playlistToDelete = this.playlistsCollection.doc(`/${docId}`);
-    playlistToDelete.delete();
-    
-    this.playlistService.removePlaylist(playlist);
-  }
-
-  deleteEverything(){
-    this.playlistsCollection.snapshotChanges()
-    .pipe(map(actions => actions.map(a =>  a.payload.doc.id)))
-    .subscribe(documentId=> {
-      console.log(documentId)
-      const doc = this.playlistsCollection.doc<Playlist>(documentId[0]);
-      console.log(doc);
-      doc.delete();
-    });
+    this.playlistService.removePlaylistNew(playlist);
   }
 
   async openModal() {

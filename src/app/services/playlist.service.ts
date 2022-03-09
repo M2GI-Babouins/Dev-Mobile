@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/compat/firestore';
+import { Firestore } from '@angular/fire/firestore';
+import { EMPTY, Observable } from 'rxjs';
 import { Playlist } from '../models/playlist';
 import { Todo } from '../models/todo';
 
@@ -8,8 +11,22 @@ import { Todo } from '../models/todo';
 export class PlaylistService {
   playlists: Playlist[] = [];
 
-  constructor() { 
+    //new
+    playlistsCollection$ : AngularFirestoreCollection<Playlist>;
+    playlists$: Observable<Playlist[]> = EMPTY;
+    playlistDocuments : DocumentChangeAction<Playlist>[];
+    selectedPlaylist: Playlist;
+    todos: Todo[] = [];
+    private playlistDoc: DocumentChangeAction<Playlist>;
 
+  constructor( private afs: AngularFirestore) { 
+    this.playlistsCollection$ = this.afs.collection<Playlist>('playlists');
+    this.playlists$ = this.playlistsCollection$.valueChanges({idField: 'id'});
+
+    this.playlists$?.subscribe(p => this.playlists = p);
+
+    this.playlistsCollection$.snapshotChanges()
+    .subscribe(docs => this.playlistDocuments = docs);
   }
 
   loadPlaylists(p: Playlist[]){
@@ -17,15 +34,23 @@ export class PlaylistService {
   }
 
   getAll() {
-    return this.playlists;
+    return this.afs.collection<Playlist>('playlists').valueChanges({idField: 'id'}); 
   }
 
-  getOne(id: number) {
-    console.log(this.playlists, id)
-    return this.playlists.find(p => p.id === id);
+  getOnePlaylist(id: string){
+    return this.playlistsCollection$.doc(`${id}`).valueChanges({idField: 'id'});
+  }
+
+  getOnePlaylistTodos(id: string){
+    return this.afs.collection<Todo>(`playlists/${id}/todos`).valueChanges({idField: 'id'});
+  }
+
+  getTodosCollection(id: string){
+    return this.afs.collection<Todo>(`playlists/${id}/todos`);
   }
 
   addPlaylist(playlist: Playlist) {
+    this.playlistsCollection$.add(playlist);
     this.playlists = this.playlists.concat(playlist);
   }
 
@@ -33,29 +58,21 @@ export class PlaylistService {
     this.playlists = this.playlists.filter(p => p.id !== playlist.id);
   }
 
-  addTodo(playlistId: number, todo: Todo) {
-    const playlistIndex = this.playlists.findIndex(p => p.id === playlistId);
-    if (this.playlists[playlistIndex]) {
-      this.playlists[playlistIndex].todos = this.playlists[playlistIndex].todos.concat(todo);
-    }
+  removePlaylistNew(playlist: Playlist){
+    const playlistToDelete = this.playlistsCollection$.doc(`/${playlist.id}`);
+    playlistToDelete.delete();
   }
 
-  removeTodo(playlistId: number, todo: Todo) {
-    const playlistIndex = this.playlists.findIndex(p => p.id === playlistId);
-    if (this.playlists[playlistIndex]) {
-      this.playlists[playlistIndex].todos = this.playlists[playlistIndex].todos.filter(t => t.id !== todo.id);
-    }
+  addTodo(playlistId: string, newTodo: Todo) {
+    const todosCollection$ = this.getTodosCollection(playlistId);
+    todosCollection$.add(newTodo);
   }
 
-  checkTodo(playlistId: number, todo: Todo, completed: boolean){
-    const playlistIndex = this.playlists.findIndex(p => p.id === playlistId);
-    if (this.playlists[playlistIndex]) {
-      this.playlists[playlistIndex].todos =  this.playlists[playlistIndex].todos.map(t =>{
-        if(t.id === todo.id){
-          t.completed = completed;
-        }
-        return t;
-      } );
-    }
+  removeTodo(playlistId: string, todo: Todo) {
+    this.getTodosCollection(playlistId).doc(`${todo.id}/`).delete();
+  }
+
+  checkTodo(playlistId: string, todo: Todo){
+    this.getTodosCollection(playlistId).doc(`${todo.id}/`).update(todo);
   }
 }
