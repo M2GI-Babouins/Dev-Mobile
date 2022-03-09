@@ -25,7 +25,9 @@ export class PlaylistDetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private playlistService: PlaylistService,
-    private modalController: ModalController) { 
+    private modalController: ModalController,
+    //private streamingMedia: StreamingMedia
+    ) { 
      }
 
   ngOnInit(): void {
@@ -56,5 +58,22 @@ export class PlaylistDetailComponent implements OnInit {
     todo.completed = completed;
     this.playlistService.checkTodo(this.playlist.id, todo);
   }
+
+  playMusic(todo: Todo){
+    console.log('lalalala');
+
+    /*const options: StreamingVideoOptions = {
+      successCallback: () => { console.log('Video played') },
+      errorCallback: (e) => { console.log('Error streaming') },
+      orientation: 'landscape',
+      shouldAutoClose: true,
+      controls: false
+    };
+
+    this.streamingMedia.playVideo(todo.musicUrl, options);
+  */
+  }
+  // in package json l.34:     "cordova-plugin-streaming-media": "^2.3.0",
+
 
 }
