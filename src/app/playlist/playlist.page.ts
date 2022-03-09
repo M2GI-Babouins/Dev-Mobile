@@ -13,7 +13,7 @@ import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } fr
   styleUrls: ['playlist.page.scss'],
 })
 export class PlaylistPage implements OnInit {
-
+  title = "Playlist";
   playlists$: Observable<Playlist[]> = EMPTY;
   playlistsCollection : AngularFirestoreCollection<Playlist>;
   playlistDocuments : DocumentChangeAction<Playlist>[];
