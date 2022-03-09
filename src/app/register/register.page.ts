@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -8,7 +9,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms"
 })
 
 export class RegisterPage implements OnInit {
-
+  title = "Register";
   submited = false;
   registerform: FormGroup= new FormGroup({
     username: new FormControl(),
@@ -16,7 +17,7 @@ export class RegisterPage implements OnInit {
     email: new FormControl()
   });
   
-  constructor(public formBuilder: FormBuilder) { 
+  constructor(public formBuilder: FormBuilder, private authService: AuthService) { 
   }
 
   registering(){
@@ -25,7 +26,8 @@ export class RegisterPage implements OnInit {
       console.log('Please provide all values!')
       return false;
     } else {
-      console.log(this.registerform.value)
+      //auth succes
+      this.authService.register(this.registerform.get("email").value, this.registerform.get("pwd").value);
     }
   }
 
@@ -33,7 +35,7 @@ export class RegisterPage implements OnInit {
     this.registerform = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(5)]],
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
-      pwd: ['', [Validators.required, Validators.pattern("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$")]]
+      pwd: ['', [Validators.required]]
    })
   }
 

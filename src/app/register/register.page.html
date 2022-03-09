@@ -1,8 +1,8 @@
+
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Register</ion-title>
-  </ion-toolbar>
+  <app-menu [title]="title"></app-menu>
 </ion-header>
+
 <ion-content>
   <form [formGroup]="registerform" (ngSubmit)="registering()" novalidate>
     <ion-item>

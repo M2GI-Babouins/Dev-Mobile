@@ -1,18 +1,9 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Playlists
-    </ion-title>
-  </ion-toolbar>
+
+<ion-header>
+  <app-menu [title]="title"></app-menu>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Playlists</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-content>
   <div id="container">
     <ion-list>
       <ion-item-sliding *ngFor="let playlist of playlists$ | async;">

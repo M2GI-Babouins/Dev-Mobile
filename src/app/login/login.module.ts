@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-routing.module';
 import { LoginPage } from './login.page';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MenuModule } from '../menu/menu.module';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoginPageRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    MenuModule
   ],
   declarations: [LoginPage]
 })
