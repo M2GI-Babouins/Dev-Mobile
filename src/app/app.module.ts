@@ -12,7 +12,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-
+import { PERSISTENCE } from '@angular/fire/compat/auth';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -26,7 +26,9 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     // provideAuth(() => getAuth()),
     // provideFirestore(() => getFirestore()),
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
+    { provide: PERSISTENCE, useValue: 'session' },],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
