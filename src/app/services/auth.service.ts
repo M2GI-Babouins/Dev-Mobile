@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { User } from 'firebase/auth';
 import { Playlist } from '../models/playlist';
+import '@codetrix-studio/capacitor-google-auth';
+import { Plugins } from '@capacitor/core';
+import * as firebase from 'firebase/compat';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +22,11 @@ export class AuthService {
   }
 
 
+  async authByGoogle(){
+    let googleUser = await Plugins.GoogleAuth.signIn(null) as any;
+    const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);
+    await this.auth.signInAndRetrieveDataWithCredential(credential);
+  }
 
   async login(email:string, password:string){
     await this.auth.signInWithEmailAndPassword(email, password).then();
