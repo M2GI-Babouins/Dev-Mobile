@@ -5,18 +5,20 @@ import { PlaylistDetailRoutingModule } from './playlist-detail-routing.module';
 import { IonicModule } from '@ionic/angular';
 import { CreateTodoComponent } from 'src/app/modals/create-todo/create-todo.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxAudioPlayerModule } from 'ngx-audio-player';
 
 
 @NgModule({
   declarations: [
     PlaylistDetailComponent,
-    CreateTodoComponent
+    CreateTodoComponent,
   ],
   imports: [
     CommonModule,
     IonicModule,
     ReactiveFormsModule,
-    PlaylistDetailRoutingModule
+    PlaylistDetailRoutingModule,
+    NgxAudioPlayerModule,
   ]
 })
 export class PlaylistDetailModule { }

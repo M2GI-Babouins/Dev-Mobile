@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } fr
 import { Firestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { Track } from 'ngx-audio-player';
 import { Observable } from 'rxjs';
 import { CreateTodoComponent } from 'src/app/modals/create-todo/create-todo.component';
 import { Playlist } from 'src/app/models/playlist';
@@ -22,11 +23,21 @@ export class PlaylistDetailComponent implements OnInit {
   private playlistDoc: DocumentChangeAction<Playlist>;
   todos$: Observable<Playlist>;
 
+  play : Track[] = [
+    {
+      title: 'neeko',
+      link: 'https://static.wikia.nocookie.net/leagueoflegends/images/a/ad/Neeko_055.ogg',
+    },
+    {
+      title: 'Start swimming',
+      link: "https://www.auboutdufil.com/get.php?fla=https://archive.org/download/props-star-swimming/Props-StarSwimming.mp3" 
+    }
+  ]; 
+
 
   constructor(private route: ActivatedRoute,
     private playlistService: PlaylistService,
     private modalController: ModalController,
-    //private streamingMedia: StreamingMedia
     ) { 
      }
 
@@ -61,19 +72,12 @@ export class PlaylistDetailComponent implements OnInit {
 
   playMusic(todo: Todo){
     console.log('lalalala');
-
-    /*const options: StreamingVideoOptions = {
-      successCallback: () => { console.log('Video played') },
-      errorCallback: (e) => { console.log('Error streaming') },
-      orientation: 'landscape',
-      shouldAutoClose: true,
-      controls: false
-    };
-
-    this.streamingMedia.playVideo(todo.musicUrl, options);
-  */
   }
-  // in package json l.34:     "cordova-plugin-streaming-media": "^2.3.0",
+
+  onEnded(end: any){
+
+  }
+
 
 
 }

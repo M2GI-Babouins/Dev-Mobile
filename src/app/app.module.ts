@@ -13,6 +13,7 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { PERSISTENCE } from '@angular/fire/compat/auth';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -22,6 +23,7 @@ import { PERSISTENCE } from '@angular/fire/compat/auth';
     AngularFireModule.initializeApp(environment.firebase),
     // AngularFireAnalyticsModule,
     AngularFirestoreModule,
+    NoopAnimationsModule
     // provideFirebaseApp(() => initializeApp(environment.firebase)),
     // provideAuth(() => getAuth()),
     // provideFirestore(() => getFirestore()),
