@@ -2,5 +2,13 @@
 	"appId": "io.ionic.starter",
 	"appName": "projet-dev",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"GoogleAuth": {
+		"scopes": [
+			"profile",
+			"email"
+		],
+		"serverClientId":"866080997350-7pr8l9s0pehp5a0cprnal6jp1usdea50.apps.googleusercontent.com",
+		"forceCodeForRefreshToken": true
+	}
 }

@@ -1,8 +1,7 @@
 <ion-header>
   <app-menu [title]="title"></app-menu>
 </ion-header>
-
-<ion-content>
+<ion-content>  
   <form [formGroup]="connectForm" (ngSubmit)="connect()" novalidate>
     <ion-item>
       <ion-label position="stacked">Username</ion-label>
@@ -14,12 +13,19 @@
     </ion-item>
     <ion-row>
       <ion-col>
-        <ion-button type="submit" color="success" expand="block">Connect</ion-button>
+        <ion-button type="submit" color="success" expand="block"  shape="round">Connect</ion-button>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button [routerLink]="['/register']" color="success" expand="block">Register</ion-button>
+        <ion-button [routerLink]="['/register']" color="success" expand="block" shape="round">Register</ion-button>
+      </ion-col>   
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button icon-right expand="block"  shape="round" color="primary" (click)="authByGoogle()">
+          <ion-icon slot="icon-only"  size="large" name="logo-google" ios="logo-google" md="logo-google"></ion-icon>Google
+        </ion-button>
       </ion-col>      
     </ion-row>
   </form>

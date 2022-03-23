@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "866080997350",
+    "project_id": "babouin-mobile-f0f44",
+    "storage_bucket": "babouin-mobile-f0f44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866080997350:android:14b1c8c5b5f70789222027",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "866080997350-gir7cl7rfca5oc0e0fibooj6t76qt38e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ionic.starter",
+            "certificate_hash": "844e4c61700289103aa70ac72ecf3a2f9acaa6de"
+          }
+        },
+        {
+          "client_id": "866080997350-7pr8l9s0pehp5a0cprnal6jp1usdea50.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKtGgOAGaHjVoCIYuA94ULlisi68cAAlQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "866080997350-7pr8l9s0pehp5a0cprnal6jp1usdea50.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
