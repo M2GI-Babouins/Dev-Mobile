@@ -40,6 +40,7 @@ export class AuthService {
       const errorMessage = error.message;
       alert(errorCode);
     });
+  }
 
  
 
@@ -70,7 +71,7 @@ export class AuthService {
  
   register(email: string, password:string){
     this.auth.createUserWithEmailAndPassword(email, password)
-    .then (() => {
+    .then (async () => {
       const userId = (await this.getConnectedUser()).uid;
       const user: FirebaseUser = {
         id: userId,
