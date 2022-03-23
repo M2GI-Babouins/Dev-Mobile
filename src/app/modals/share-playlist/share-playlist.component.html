@@ -1,0 +1,24 @@
+<form [formGroup]="shareForm" (ngSubmit)="share()">
+  <ion-item>
+    <ion-label position="stacked">User email</ion-label>
+    <ion-input formControlName="user"></ion-input>
+  </ion-item>
+
+  <ion-radio-group formControlName="right">
+    <ion-list-header>
+      <ion-label>User Right</ion-label>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label>Reader</ion-label>
+      <ion-radio slot="start" value="reader"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Writer</ion-label>
+      <ion-radio slot="start" value="writer"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+
+  <ion-button [disabled]="shareForm.invalid" expand="block" type="submit">Validate</ion-button>
+</form>

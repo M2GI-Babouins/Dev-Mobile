@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { GoogleAuthProvider} from 'firebase/auth';
@@ -8,21 +9,24 @@ import { Playlist } from '../models/playlist';
 import { Plugins } from '@capacitor/core';
 import * as firebase from 'firebase/compat';
 import { Auth } from '@angular/fire/auth';
-
+import { Observable, EMPTY } from 'rxjs';
+import { FirebaseUser } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  
-  constructor(private router:Router, private auth:AngularFireAuth) {
-    //this.auth.authState.subscribe(user => {
-    //  if (user) {
-    //    this.connectedUser.next(user);
-    //  }
-    //})
-  }
 
+  usersCollection$ : AngularFirestoreCollection<FirebaseUser>;
+  users: FirebaseUser[];
+
+  constructor(private auth: AngularFireAuth, private router:Router,
+    private afs: AngularFirestore) {
+    this.usersCollection$ = this.afs.collection<FirebaseUser>('users');
+    this.usersCollection$.valueChanges().subscribe(users => {
+      this.users = users;
+    });
+  }
 
   authByGoogle(){
     //Plugins.GoogleAuthProvider(null);
@@ -36,8 +40,8 @@ export class AuthService {
       const errorMessage = error.message;
       alert(errorCode);
     });
-    this.router.navigate(["/playlist"])
-  }
+
+ 
 
   login(email:string, password:string){
     this.auth.signInWithEmailAndPassword(email, password)
@@ -64,10 +68,16 @@ export class AuthService {
     });
   }
  
-
   register(email: string, password:string){
     this.auth.createUserWithEmailAndPassword(email, password)
     .then (() => {
+      const userId = (await this.getConnectedUser()).uid;
+      const user: FirebaseUser = {
+        id: userId,
+        email: email,
+        password: password
+      };
+      this.usersCollection$.add(user);
       this.router.navigate(["/playlist"]);
     })
     .catch((error) => {
@@ -77,7 +87,15 @@ export class AuthService {
     });    
   }
 
-  getConnectedUser(){
+  async getConnectedUser(){
+    return await this.auth.currentUser;
+  }
+
+  getConnectedUserId(){
     return this.auth.currentUser;
+  }
+
+  getUserByEmail(userEmail: string){
+    return this.users.filter(user => user.email === userEmail)[0];
   }
 }
