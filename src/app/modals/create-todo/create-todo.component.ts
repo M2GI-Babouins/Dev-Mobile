@@ -20,8 +20,8 @@ export class CreateTodoComponent implements OnInit {
   constructor(private fb: FormBuilder, private modalController: ModalController,
     private playlistService: PlaylistService) {
     this.todoForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', Validators.maxLength(255)],
+      title: ['', [Validators.required, Validators.minLength(3)]],
+      author: ['', Validators.maxLength(255)],
       url: ['', Validators.required]
     });
   }
