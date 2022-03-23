@@ -23,8 +23,7 @@ export class RegisterPage implements OnInit {
   registering(){
     this.submited = true;
     if (!this.registerform.valid) {
-      console.log('Please provide all values!')
-      return false;
+      alert('Please provide all values!')
     } else {
       //auth succes
       this.authService.register(this.registerform.get("email").value, this.registerform.get("pwd").value);

@@ -2,18 +2,20 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { User } from 'firebase/auth';
+import { GoogleAuthProvider} from 'firebase/auth';
 import { Playlist } from '../models/playlist';
-import '@codetrix-studio/capacitor-google-auth';
+//import '@codetrix-studio/capacitor-google-auth';
 import { Plugins } from '@capacitor/core';
 import * as firebase from 'firebase/compat';
+import { Auth } from '@angular/fire/auth';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
-  constructor(private auth: AngularFireAuth, private router:Router) {
+  
+  constructor(private router:Router, private auth:AngularFireAuth) {
     //this.auth.authState.subscribe(user => {
     //  if (user) {
     //    this.connectedUser.next(user);
@@ -22,25 +24,57 @@ export class AuthService {
   }
 
 
-  async authByGoogle(){
-    let googleUser = await Plugins.GoogleAuth.signIn(null) as any;
-    const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);
-    await this.auth.signInAndRetrieveDataWithCredential(credential);
-  }
-
-  async login(email:string, password:string){
-    await this.auth.signInWithEmailAndPassword(email, password).then();
+  authByGoogle(){
+    //Plugins.GoogleAuthProvider(null);
+    const provider = new GoogleAuthProvider();
+    console.log(this.auth);
+    this.auth.signInWithPopup(provider)
+    .then (() => {
+      this.router.navigate(["/playlist"])
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorCode);
+    });
     this.router.navigate(["/playlist"])
   }
 
-  async logout() {
-    await this.auth.signOut();
-    this.router.navigate(["/login"])
+  login(email:string, password:string){
+    this.auth.signInWithEmailAndPassword(email, password)
+    .then (() => {
+      this.router.navigate(["/playlist"])
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(error.message);
+    });
+    
   }
 
-  async register(email: string, password:string){
-    await this.auth.createUserWithEmailAndPassword(email, password);
-    this.router.navigate(["/playist"])
+  logout(): void {
+    this.auth.signOut()
+    .then (() => {
+      this.router.navigate(["/login"]);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(error.message);
+    });
+  }
+ 
+
+  register(email: string, password:string){
+    this.auth.createUserWithEmailAndPassword(email, password)
+    .then (() => {
+      this.router.navigate(["/playlist"]);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(error.message);
+    });    
   }
 
   getConnectedUser(){
