@@ -54,6 +54,6 @@
   
       </ion-list>
   
-      <ion-button expand="block" (click)="openModal()">Add Todo</ion-button>
+      <ion-button expand="block" (click)="openModal()" [disabled]="!canEdit">Add Todo</ion-button>
     </div>
   </ion-content>

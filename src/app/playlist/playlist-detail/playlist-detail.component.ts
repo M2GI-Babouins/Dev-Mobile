@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { CreateTodoComponent } from 'src/app/modals/create-todo/create-todo.component';
 import { Playlist } from 'src/app/models/playlist';
 import { Todo } from 'src/app/models/todo';
+import { AuthService } from 'src/app/services/auth.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
 
 @Component({
@@ -22,6 +23,8 @@ export class PlaylistDetailComponent implements OnInit {
   playlistsCollection : AngularFirestoreCollection<Playlist>;
   private playlistDoc: DocumentChangeAction<Playlist>;
   todos$: Observable<Playlist>;
+  user: any;
+  canEdit: boolean;
 
   play : Track[] = [
     {
@@ -38,17 +41,27 @@ export class PlaylistDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private playlistService: PlaylistService,
     private modalController: ModalController,
+    private authService : AuthService
     ) { 
      }
 
-  ngOnInit(): void {
-    this.playlistService.getOnePlaylist(this.route.snapshot.params.id).subscribe((p:Playlist) =>{
+  ngOnInit() {
+    this.playlistService.getOnePlaylist(this.route.snapshot.params.id).subscribe(async(p:Playlist) =>{
+      this.user = await this.authService.getConnectedUser();
+      if(p.owner === this.user.uid || p.writers.includes(this.user.uid)){
+        p.hasWritingRights = true;
+      }else{
+        p.hasWritingRights = false;
+      }
       this.playlist = p;
+      this.canEdit = this.playlist.hasWritingRights;
     });
 
     this.playlistService.getOnePlaylistTodos(this.route.snapshot.params.id).subscribe((t) =>{
       this.todos = t;
-    })
+    });
+
+    // this.user = await this.authService.getConnectedUser();
   }
 
   delete(todo: Todo) {
