@@ -6,6 +6,7 @@ import { PlaylistService } from '../services/playlist.service';
 import { EMPTY, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/compat/firestore';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-playlist',
@@ -15,15 +16,23 @@ import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } fr
 export class PlaylistPage implements OnInit {
   title = "Playlist";
   playlists$: Observable<Playlist[]> = EMPTY;
+  playlists: Playlist[];
   playlistsCollection : AngularFirestoreCollection<Playlist>;
   playlistDocuments : DocumentChangeAction<Playlist>[];
 
   constructor(private playlistService: PlaylistService,
-    private modalController: ModalController) {
+    private modalController: ModalController,
+    private authService : AuthService) {
   }
 
-  ngOnInit(): void {
-   this.playlists$ = this.playlistService.getAll();
+   ngOnInit() {
+   this.playlists$ =this.playlistService.getAll();
+   this.playlists$.subscribe(playlists =>this.getPlaylistsOfUser(playlists))
+  }
+
+  async getPlaylistsOfUser(playlists: Playlist[]){
+    const user = await this.authService.getConnectedUser();
+    this.playlists = playlists.filter(p => p.owner === user.uid);
   }
 
   delete(playlist: Playlist) {

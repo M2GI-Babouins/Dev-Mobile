@@ -32,10 +32,14 @@ export class AuthService {
 
   async register(email: string, password:string){
     await this.auth.createUserWithEmailAndPassword(email, password);
-    this.router.navigate(["/playist"])
+    this.router.navigate(["/playist"]);
   }
 
-  getConnectedUser(){
+  async getConnectedUser(){
+    return await this.auth.currentUser;
+  }
+
+  getConnectedUserId(){
     return this.auth.currentUser;
   }
 }
