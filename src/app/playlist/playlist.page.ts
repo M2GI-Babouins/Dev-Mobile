@@ -20,6 +20,7 @@ export class PlaylistPage implements OnInit {
   playlists: Playlist[];
   playlistsCollection : AngularFirestoreCollection<Playlist>;
   playlistDocuments : DocumentChangeAction<Playlist>[];
+  user : any;
 
   constructor(private playlistService: PlaylistService,
     private modalController: ModalController,
@@ -32,9 +33,17 @@ export class PlaylistPage implements OnInit {
   }
 
   async getPlaylistsOfUser(playlists: Playlist[]){
-    const user = await this.authService.getConnectedUser();
+    this.user = await this.authService.getConnectedUser();
     this.playlists = playlists.filter(p => {
-      return p.owner === user.uid || p.readers?.includes(user.uid) || p.writers?.includes(user.uid)
+      return p.owner === this.user.uid || p.readers?.includes(this.user.uid) || p.writers?.includes(this.user.uid)
+    })
+    .map(playlist => {
+      if(playlist.owner === this.user.uid || playlist.writers.includes(this.user.uid)){
+        playlist.hasWritingRights = true;
+      }else{
+        playlist.hasWritingRights = false;
+      }
+      return playlist;
     });
   }
 

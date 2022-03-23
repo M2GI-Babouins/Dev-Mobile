@@ -7,6 +7,7 @@ export class Playlist {
     owner: string;
     readers?: string[];
     writers?: string[];
+    hasWritingRights?: boolean;
 
     constructor(name: string, todos?: Todo[]) {
         this.name = name;
