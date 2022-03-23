@@ -5,6 +5,8 @@ export class Playlist {
     todos?: Todo[];
     id?: string;
     owner: string;
+    readers?: string[];
+    writers?: string[];
 
     constructor(name: string, todos?: Todo[]) {
         this.name = name;

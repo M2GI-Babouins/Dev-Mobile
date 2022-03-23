@@ -7,6 +7,7 @@ import { EMPTY, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/compat/firestore';
 import { AuthService } from '../services/auth.service';
+import { SharePlaylistComponent } from '../modals/share-playlist/share-playlist.component';
 
 @Component({
   selector: 'app-playlist',
@@ -32,7 +33,9 @@ export class PlaylistPage implements OnInit {
 
   async getPlaylistsOfUser(playlists: Playlist[]){
     const user = await this.authService.getConnectedUser();
-    this.playlists = playlists.filter(p => p.owner === user.uid);
+    this.playlists = playlists.filter(p => {
+      return p.owner === user.uid || p.readers?.includes(user.uid) || p.writers?.includes(user.uid)
+    });
   }
 
   delete(playlist: Playlist) {
@@ -45,6 +48,16 @@ export class PlaylistPage implements OnInit {
     });
     await modal.present();
     // this.playlists = this.playlistService.getAll();
+  }
+
+  async share(playlist: Playlist){
+    const modal = await this.modalController.create({
+      component: SharePlaylistComponent,
+      componentProps: {
+        playlist: playlist
+      }
+    });
+    await modal.present();
   }
 
 }

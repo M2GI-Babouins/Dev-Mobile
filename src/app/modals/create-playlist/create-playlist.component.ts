@@ -25,11 +25,12 @@ export class CreatePlaylistComponent implements OnInit {
   }
 
    addPlaylist() {
-
     this.authService.getConnectedUserId().then(user => {
       const newPlayList: Playlist = {
         name: this.playlistForm.get('name').value,
         owner:  user.uid,
+        readers: [],
+        writers: []
       };
       this.playlistService.addPlaylist(newPlayList);
     });

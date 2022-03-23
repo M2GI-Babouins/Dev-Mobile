@@ -8,6 +8,7 @@ import { PlaylistPageRoutingModule } from './playlist-routing.module';
 import { CreatePlaylistComponent } from '../modals/create-playlist/create-playlist.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MenuModule } from '../menu/menu.module';
+import { SharePlaylistComponent } from '../modals/share-playlist/share-playlist.component';
 
 
 @NgModule({
@@ -19,6 +20,6 @@ import { MenuModule } from '../menu/menu.module';
     PlaylistPageRoutingModule,
     MenuModule
   ],
-  declarations: [PlaylistPage, CreatePlaylistComponent]
+  declarations: [PlaylistPage, CreatePlaylistComponent, SharePlaylistComponent]
 })
 export class PlaylistPageModule { }

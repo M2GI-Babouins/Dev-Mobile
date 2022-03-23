@@ -54,6 +54,10 @@ export class PlaylistService {
     this.playlists = this.playlists.concat(playlist);
   }
 
+  updatePlaylist(playlist: Playlist){
+    this.afs.collection<Playlist>('playlists').doc(`${playlist.id}/`).update(playlist);
+  }
+
   removePlaylist(playlist: Playlist) {
     this.playlists = this.playlists.filter(p => p.id !== playlist.id);
   }
