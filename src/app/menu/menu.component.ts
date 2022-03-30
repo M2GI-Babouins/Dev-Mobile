@@ -9,6 +9,7 @@ import { AuthService } from '../services/auth.service';
 export class MenuComponent implements OnInit {
   
   @Input() title: string = "Blindtest 2000";
+  public menuIsShown = false
 
   constructor(private authService: AuthService) { }
 
@@ -17,6 +18,14 @@ export class MenuComponent implements OnInit {
   logout(){
     console.log("prout");
     this.authService.logout();
-    
+  }
+
+  showMenu(){
+    this.menuIsShown = !this.menuIsShown;
+  }
+
+  resetPassword(){
+    console.log('reset password');
+    this.authService
   }
 }

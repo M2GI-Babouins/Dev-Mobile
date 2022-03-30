@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/compat/firestore';
-import { Firestore } from '@angular/fire/firestore';
+import { AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Track } from 'ngx-audio-player';
@@ -61,7 +60,6 @@ export class PlaylistDetailComponent implements OnInit {
       this.todos = t;
     });
 
-    // this.user = await this.authService.getConnectedUser();
   }
 
   delete(todo: Todo) {

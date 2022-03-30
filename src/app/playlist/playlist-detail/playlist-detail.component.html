@@ -1,10 +1,7 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-title>
-        {{playlist?.name | titlecase}}
-      </ion-title>
-    </ion-toolbar>
+  <app-menu [title]="playlist?.name"></app-menu>
   </ion-header>
+
   
   <ion-content [fullscreen]="true">
     <ion-header collapse="condense">

@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { GoogleAuthProvider} from 'firebase/auth';
+import { GoogleAuthProvider, sendPasswordResetEmail} from 'firebase/auth';
 import { Playlist } from '../models/playlist';
 //import '@codetrix-studio/capacitor-google-auth';
 import { Plugins } from '@capacitor/core';
@@ -39,6 +39,13 @@ export class AuthService {
       const errorCode = error.code;
       const errorMessage = error.message;
       alert(errorCode);
+    });
+  }
+
+  resetPassword(){
+    this.getConnectedUser()
+    .then(user => {
+      this.auth.sendPasswordResetEmail(user.email);
     });
   }
 

@@ -4,8 +4,7 @@ import { CreatePlaylistComponent } from '../modals/create-playlist/create-playli
 import { Playlist } from '../models/playlist';
 import { PlaylistService } from '../services/playlist.service';
 import { EMPTY, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/compat/firestore';
+import {  AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/compat/firestore';
 import { AuthService } from '../services/auth.service';
 import { SharePlaylistComponent } from '../modals/share-playlist/share-playlist.component';
 

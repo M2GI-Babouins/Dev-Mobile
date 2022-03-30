@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { CreateTodoComponent } from 'src/app/modals/create-todo/create-todo.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
+import { MenuModule } from 'src/app/menu/menu.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { NgxAudioPlayerModule } from 'ngx-audio-player';
     ReactiveFormsModule,
     PlaylistDetailRoutingModule,
     NgxAudioPlayerModule,
+    MenuModule
   ]
 })
 export class PlaylistDetailModule { }

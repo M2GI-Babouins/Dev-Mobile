@@ -2,27 +2,25 @@
   <app-menu [title]="title"></app-menu>
 </ion-header>
 <ion-content>  
-  <form [formGroup]="connectForm" (ngSubmit)="connect()" novalidate>
-    <ion-item>
-      <ion-label position="stacked">Username</ion-label>
+  <form [formGroup]="connectForm" (ngSubmit)="connect()" novalidate class="login-form">
+    <ion-item class="form-item">
+      <ion-label position="stacked">Email</ion-label>
       <ion-input formControlName="username" type="text" required></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item class="form-item">
       <ion-label position="stacked">Password</ion-label>
       <ion-input formControlName="pwd" type="password" required></ion-input>
     </ion-item>
     <ion-row>
-      <ion-col>
+      <ion-col class="form-button">
         <ion-button type="submit" color="success" expand="block"  shape="round">Connect</ion-button>
       </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
+      <ion-col class="form-button">
         <ion-button [routerLink]="['/register']" color="success" expand="block" shape="round">Register</ion-button>
-      </ion-col>   
+      </ion-col> 
     </ion-row>
     <ion-row>
-      <ion-col>
+      <ion-col class="form-button">
         <ion-button icon-right expand="block"  shape="round" color="primary" (click)="authByGoogle()">
           <ion-icon slot="icon-only"  size="large" name="logo-google" ios="logo-google" md="logo-google"></ion-icon>Google
         </ion-button>
