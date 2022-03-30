@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
@@ -25,7 +25,7 @@ export class PlaylistDetailComponent implements OnInit {
   user: any;
   canEdit: boolean;
 
-  play : Track[] = [
+ /* play : Track[] = [
     {
       title: 'neeko',
       artist:'riot',
@@ -34,33 +34,37 @@ export class PlaylistDetailComponent implements OnInit {
     {
       title: 'Start swimming',
       link: "https://www.auboutdufil.com/get.php?fla=https://archive.org/download/props-star-swimming/Props-StarSwimming.mp3" 
-    }
-  ]; 
+    },
+  ]; */
+
+  play: Track[] = [];
 
 
   constructor(private route: ActivatedRoute,
     private playlistService: PlaylistService,
     private modalController: ModalController,
-    private authService : AuthService
+    private authService : AuthService,
     ) { 
      }
 
   ngOnInit() {
     this.playlistService.getOnePlaylist(this.route.snapshot.params.id).subscribe(async(p:Playlist) =>{
-      this.user = await this.authService.getConnectedUser();
-      if(p.owner === this.user.uid || p.writers.includes(this.user.uid)){
-        p.hasWritingRights = true;
-      }else{
-        p.hasWritingRights = false;
-      }
       this.playlist = p;
+      this.user = await this.authService.getConnectedUser();
+      if(this.playlist.owner === this.user.uid || this.playlist.writers.includes(this.user.uid)){
+        this.playlist.hasWritingRights = true;
+      }else{
+        this.playlist.hasWritingRights = false;
+      }
       this.canEdit = this.playlist.hasWritingRights;
+
     });
 
     this.playlistService.getOnePlaylistTodos(this.route.snapshot.params.id).subscribe((t) =>{
       this.todos = t;
+      this.initPlay();
     });
-
+    
   }
 
   delete(todo: Todo) {
@@ -82,11 +86,21 @@ export class PlaylistDetailComponent implements OnInit {
     this.playlistService.checkTodo(this.playlist.id, todo);
   }
 
-  playMusic(todo: Todo){
-    console.log('lalalala');
+  private initPlay(){
+    this.todos.forEach(music => {
+      this.play.push({
+        title: music.name,
+        artist: music.description,
+        link: music.musicUrl,
+      });
+    });
   }
 
-  onEnded(end: any){
+  onEnded(event: any){
+
+  }
+
+  playMusic(music: Todo){
 
   }
 
