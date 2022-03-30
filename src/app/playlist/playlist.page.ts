@@ -7,6 +7,7 @@ import { EMPTY, Observable } from 'rxjs';
 import {  AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/compat/firestore';
 import { AuthService } from '../services/auth.service';
 import { SharePlaylistComponent } from '../modals/share-playlist/share-playlist.component';
+import { CreateTodoComponent } from '../modals/create-todo/create-todo.component';
 
 @Component({
   selector: 'app-playlist',
@@ -56,6 +57,16 @@ export class PlaylistPage implements OnInit {
     });
     await modal.present();
     // this.playlists = this.playlistService.getAll();
+  }
+
+  async addTodo(playlist: Playlist){
+    const modal = await this.modalController.create({
+      component: CreateTodoComponent,
+      componentProps: {
+        playlist: playlist
+      }
+    });
+    await modal.present();
   }
 
   async share(playlist: Playlist){

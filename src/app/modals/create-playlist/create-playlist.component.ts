@@ -18,7 +18,10 @@ export class CreatePlaylistComponent implements OnInit {
     private playlistService: PlaylistService,
     private authService: AuthService,
     private modalController: ModalController) {
-    this.playlistForm = this.fb.group({ name: ['', [Validators.required, Validators.minLength(3)]] });
+    this.playlistForm = this.fb.group({ 
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      theme: ['', [Validators.minLength(5)]] 
+    });
   }
 
   ngOnInit() { 
@@ -30,7 +33,8 @@ export class CreatePlaylistComponent implements OnInit {
         name: this.playlistForm.get('name').value,
         owner:  user.uid,
         readers: [],
-        writers: []
+        writers: [],
+        theme: this.playlistForm.get('theme').value
       };
       this.playlistService.addPlaylist(newPlayList);
     });

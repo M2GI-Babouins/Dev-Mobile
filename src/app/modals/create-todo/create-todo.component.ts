@@ -32,8 +32,8 @@ export class CreateTodoComponent implements OnInit {
   addTodo() {
 
     const newTodo : Todo = {
-      name: this.todoForm.get('name').value,
-      description: this.todoForm.get('description').value,
+      name: this.todoForm.get('title').value,
+      description: this.todoForm.get('author').value,
       id: Math.floor(Math.random() * 100) + Date.now(),
       completed: false,
       musicUrl: this.todoForm.get('url').value
