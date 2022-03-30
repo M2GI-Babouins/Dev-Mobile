@@ -30,17 +30,17 @@ export class CreateTodoComponent implements OnInit {
   }
 
   addTodo() {
-
-    const newTodo : Todo = {
-      name: this.todoForm.get('title').value,
-      description: this.todoForm.get('author').value,
-      id: Math.floor(Math.random() * 100) + Date.now(),
-      completed: false,
-      musicUrl: this.todoForm.get('url').value
-    };
-
-    this.playlistService.addTodo(this.playlist.id, newTodo);
-
+    if(this.todoForm.valid){
+      const newTodo : Todo = {
+        name: this.todoForm.get('title').value,
+        description: this.todoForm.get('author').value,
+        id: Math.floor(Math.random() * 100) + Date.now(),
+        completed: false,
+        musicUrl: this.todoForm.get('url').value
+      };
+    
+      this.playlistService.addTodo(this.playlist.id, newTodo);
+    }
     this.modalController.dismiss();
   }
 

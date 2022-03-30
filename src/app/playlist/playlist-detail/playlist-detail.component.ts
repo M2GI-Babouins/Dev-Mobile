@@ -28,6 +28,7 @@ export class PlaylistDetailComponent implements OnInit {
   play : Track[] = [
     {
       title: 'neeko',
+      artist:'riot',
       link: 'https://static.wikia.nocookie.net/leagueoflegends/images/a/ad/Neeko_055.ogg',
     },
     {

@@ -20,7 +20,7 @@ export class CreatePlaylistComponent implements OnInit {
     private modalController: ModalController) {
     this.playlistForm = this.fb.group({ 
       name: ['', [Validators.required, Validators.minLength(3)]],
-      theme: ['', [Validators.minLength(5)]] 
+      theme: ['', [Validators.minLength(3)]] 
     });
   }
 
@@ -28,6 +28,8 @@ export class CreatePlaylistComponent implements OnInit {
   }
 
    addPlaylist() {
+    if(this.playlistForm.valid){
+
     this.authService.getConnectedUserId().then(user => {
       const newPlayList: Playlist = {
         name: this.playlistForm.get('name').value,
@@ -38,7 +40,12 @@ export class CreatePlaylistComponent implements OnInit {
       };
       this.playlistService.addPlaylist(newPlayList);
     });
+  }
 
+    this.modalController.dismiss();
+  }
+
+  cancel(){
     this.modalController.dismiss();
   }
 
