@@ -16,8 +16,8 @@
         [displayTitle]="true" 
         [autoPlay]="false" 
         muted="muted"
-        [displayPlaylist]="true" 
-        [pageSizeOptions]="[10,25,50]" 
+        [displayPlaylist]="false" 
+        [pageSizeOptions]="[1,25,50]" 
         (trackEnded)="onEnded($event)"
         [displayVolumeControls]="true" 
         [displayRepeatControls]="true"
@@ -26,6 +26,8 @@
         [displayDuration]="true" 
         [expanded]="true">
         </ngx-audio-player>
+
+
       <ion-list>
   
         <ion-item-sliding *ngFor="let todo of todos">
