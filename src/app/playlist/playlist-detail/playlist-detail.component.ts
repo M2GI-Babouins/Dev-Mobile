@@ -8,6 +8,7 @@ import { CreateTodoComponent } from 'src/app/modals/create-todo/create-todo.comp
 import { Playlist } from 'src/app/models/playlist';
 import { Todo } from 'src/app/models/todo';
 import { AuthService } from 'src/app/services/auth.service';
+import { MusicRetrieverService } from 'src/app/services/music-retriever.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
 
 @Component({
@@ -44,6 +45,7 @@ export class PlaylistDetailComponent implements OnInit {
     private playlistService: PlaylistService,
     private modalController: ModalController,
     private authService : AuthService,
+    private musicService : MusicRetrieverService,
     ) { 
      }
 
@@ -88,10 +90,12 @@ export class PlaylistDetailComponent implements OnInit {
 
   private initPlay(){
     this.todos.forEach(music => {
+      const actualmusicurl = this.musicService.getUrlFromYoutubeUrl(music.musicUrl);
+      console.log(actualmusicurl);
       this.play.push({
         title: music.name,
         artist: music.description,
-        link: music.musicUrl,
+        link: this.musicService.getUrlFromYoutubeUrl(music.musicUrl),
       });
     });
   }
