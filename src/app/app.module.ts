@@ -25,7 +25,8 @@ import { HttpClientModule } from  '@angular/common/http';
     // AngularFireAnalyticsModule,
     AngularFirestoreModule,
     NoopAnimationsModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    HttpClientModule
     // provideFirebaseApp(() => initializeApp(environment.firebase)),
     // provideAuth(() => getAuth()),
     // provideFirestore(() => getFirestore()),
